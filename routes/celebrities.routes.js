@@ -16,43 +16,16 @@ router.get("/create", (req, res) => {
 
 // POST /celebrities
 router.post("/create", async (req, res) => {
-  try {
-    const { name, occupation, catchPhrase } = req.body;
+  const newCelebrity = await CelebrityModel.create(req.body);
+  res.redirect("/celebrities");
+});
 
-    const newCelebrity = new Celebrity({
-      name,
-      occupation,
-      catchPhrase,
-    });
-
-    const savedCelebrity = await newCelebrity.save();
-
-    res.redirect("/celebrities");
-  } catch (error) {
-    console.log(error);
-    res.render("celebrities/new-celebrity");
-  }
+router.get("/elebrities", async (req, res) => {
+  const celebrities = await Celebrity.find();
+  res.render("celebrities/celebrities", { celebrities });
 });
 
 // PUT /celebrities/:id
-router.put("/:id", async (req, res) => {
-  try {
-    const updatedCelebrity = await Celebrity.findByIdAndUpdate(
-      req.params.id,
-      {
-        name: req.body.name,
-        occupation: req.body.occupation,
-        catchPhrase: req.body.catchPhrase,
-      },
-      { new: true }
-    );
-
-    res.redirect(`/celebrities/${updatedCelebrity._id}`);
-  } catch (error) {
-    console.log(error);
-    res.render("error");
-  }
-});
 
 // DELETE /celebrities/:id
 router.delete("/:id", (req, res) => {

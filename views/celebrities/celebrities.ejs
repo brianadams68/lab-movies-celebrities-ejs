@@ -1,5 +1,9 @@
 <h2>List of Celebrities</h2>
 
 <% celebrities.forEach((celebrity) => { %>
-<p><%= celebrity.name %></p>
+<div>
+  <p>Name: <%= celebrity.name %></p>
+  <p>Occupation: <%= celebrity.occupation %></p>
+  <p>Cath Phrase: <%= celebrity.catchPhrase %></p>
+</div>
 <% }) %>
