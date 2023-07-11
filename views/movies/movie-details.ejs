@@ -1,0 +1,20 @@
+<h2>Movie Details</h2>
+
+<div>
+  <h3>Title: <%= movie.title %></h3>
+  <p>Genre: <%= movie.genre %></p>
+  <p>Plot: <%= movie.plot %></p>
+</div>
+
+<div>
+  <h3>Cast:</h3>
+  <ul>
+    <% movie.cast.forEach(celebrity => { %>
+    <li>
+      <h4>Name: <%= celebrity.name %></h4>
+      <p>Occupation: <%= celebrity.occupation %></p>
+      <p>Catch Phrase: <%= celebrity.catchPhrase %></p>
+    </li>
+    <% }) %>
+  </ul>
+</div>

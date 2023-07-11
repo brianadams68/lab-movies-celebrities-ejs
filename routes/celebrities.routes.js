@@ -17,10 +17,12 @@ router.get("/create", (req, res) => {
 // POST /celebrities
 router.post("/create", async (req, res) => {
   try {
+    const { name, occupation, catchPhrase } = req.body;
+
     const newCelebrity = new Celebrity({
-      name: req.body.name,
-      occupation: req.body.occupation,
-      catchPhrase: req.body.catchPhrase,
+      name,
+      occupation,
+      catchPhrase,
     });
 
     const savedCelebrity = await newCelebrity.save();

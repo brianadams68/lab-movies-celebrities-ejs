@@ -1,4 +1,6 @@
 const router = require("express").Router();
+const Celebrity = require("../models/Celebrity.model");
+const Movie = require("../models/Movies.model");
 
 // GET /movies
 router.get("/", (req, res) => {
@@ -9,6 +11,7 @@ router.get("/", (req, res) => {
 router.get("/new-movie", async (req, res) => {
   try {
     const celebrities = await Celebrity.find();
+
     res.render("movies/new-movie", { celebrities });
   } catch (error) {
     console.log(error);
@@ -24,10 +27,10 @@ router.post("/create", async (req, res) => {
     const newMovie = new Movie({
       title,
       genre,
-      cast: cast.map((castId) => mongoose.Types.ObjectId(castId)),
+      cast,
     });
 
-    const savedMovie = await newMovie.save();
+    await newMovie.save();
 
     res.redirect("/movies");
   } catch (error) {
@@ -37,8 +40,26 @@ router.post("/create", async (req, res) => {
 });
 
 // PUT /movies/:id
-router.put("/:id", (req, res) => {
-  // Handle PUT request to update a specific movie
+router.put("/", async (req, res) => {
+  try {
+    const movies = await Movie.find();
+
+    res.render("movies/movies", { movies });
+  } catch (error) {
+    console.log(error);
+    res.render("error");
+  }
+});
+
+router.get("/:id", async (req, res) => {
+  try {
+    const movie = await Movie.findById(req.params.id).populate("cast");
+
+    res.render("movies/movie-details", { movie });
+  } catch (error) {
+    console.log(error);
+    res.render("error");
+  }
 });
 
 // DELETE /movies/:id
